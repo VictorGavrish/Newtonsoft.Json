@@ -225,7 +225,11 @@ namespace Newtonsoft.Json.Converters
             }
         }
 
-        private static void CheckedRead(JsonReader reader)
+        /// <summary>
+        /// Reads the next token and throws if an unexpected end is encountered.
+        /// </summary>
+        /// <param name="reader">The reader used.</param>
+        protected static void CheckedRead(JsonReader reader)
         {
             if (!reader.Read())
             {

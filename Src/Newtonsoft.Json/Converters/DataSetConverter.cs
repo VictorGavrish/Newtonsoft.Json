@@ -46,7 +46,7 @@ namespace Newtonsoft.Json.Converters
             DataSet dataSet = (DataSet)value;
             DefaultContractResolver resolver = serializer.ContractResolver as DefaultContractResolver;
 
-            DataTableConverter converter = new DataTableConverter();
+            DataTableConverter converter = CreateDataTableConverter();
 
             writer.WriteStartObject();
 
@@ -80,7 +80,7 @@ namespace Newtonsoft.Json.Converters
                 ? new DataSet()
                 : (DataSet)Activator.CreateInstance(objectType);
 
-            DataTableConverter converter = new DataTableConverter();
+            DataTableConverter converter = CreateDataTableConverter();
 
             CheckedRead(reader);
 
@@ -114,7 +114,20 @@ namespace Newtonsoft.Json.Converters
             return typeof(DataSet).IsAssignableFrom(valueType);
         }
 
-        private void CheckedRead(JsonReader reader)
+        /// <summary>
+        /// Returns an instance of DataTableConverter
+        /// </summary>
+        /// <returns></returns>
+        protected virtual DataTableConverter CreateDataTableConverter()
+        {
+            return new DataTableConverter();
+        }
+
+        /// <summary>
+        /// Reads the next token and throws if an unexpected end is encountered.
+        /// </summary>
+        /// <param name="reader">The reader used.</param>
+        protected void CheckedRead(JsonReader reader)
         {
             if (!reader.Read())
             {
